@@ -1,3 +1,10 @@
+/* This instrument auto-generates a series of chimes, 
+played in various different ways dependent on the JSON 
+data from NYC weather. Press 's' to start the instrument, 
+and 'e' to pause. 
+Playable link: http://alpha.editor.p5js.org/tinaye/sketches/Bk9NnIZDG
+*/
+
 // A wind direction vector
 var angle;
 // Circle position
@@ -23,7 +30,7 @@ function preload() {
 function setup() {
   createCanvas(500, 300);
   colorMode(RGB);
-  background(91, 91, 91);
+  background(255, 255, 255);
   colorMode(HSB);
   strokeWeight(10);
   windowWidth = width - 2 * (width / 5);
@@ -32,12 +39,12 @@ function setup() {
 function draw() {
   push();
   colorMode(RGB);
-  background('rgba(91, 91, 91, 0.3)');
+  background('rgba(255, 255, 255, 0.2)');
   pop();
   if (is_playing) {
-    waitTime = int(random(200, 280));
+    waitTime = int(random(180, 330));
   	wait(waitTime);
-    wait((300)/ (windmag+1) );
+    wait((250)/ (windmag+1) );
     playRate = 1 + windmag / 5.0;
     var randomIndex = int(random(0, chimes.length));
   	chimes[randomIndex].rate(playRate);
@@ -47,8 +54,8 @@ function draw() {
   }
   push();
   noStroke();
-  fill('white');
-  text('P - Play | E - Pause', width/2, height - 40);
+  fill('gray');
+  text('p - play | e - pause', width/2, height - 40);
   pop();
 }
 
