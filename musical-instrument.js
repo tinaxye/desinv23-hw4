@@ -29,33 +29,39 @@ function preload() {
 
 function setup() {
   createCanvas(500, 300);
+	push();
   colorMode(RGB);
-  background(255, 255, 255);
+  background(80, 80, 80);
+	pop();
   colorMode(HSB);
   strokeWeight(10);
-  windowWidth = width - 2 * (width / 5);
+  windowWidth = width - 2 * (width / 7);
 }
 
+var nextTime = 0;
 function draw() {
   push();
   colorMode(RGB);
-  background('rgba(255, 255, 255, 0.2)');
+  background('rgba(80, 80, 80, 0.1)');
   pop();
-  if (is_playing) {
-    waitTime = int(random(180, 330));
-  	wait(waitTime);
-    wait((250)/ (windmag+1) );
+  if (is_playing && millis() > nextTime) {
+    waitTime = int(random(200, 1000));
+	nextTime = millis() + waitTime + (250)/(windmag+1);
     playRate = 1 + windmag / 5.0;
     var randomIndex = int(random(0, chimes.length));
+		var randomPan = random(-1.0, 1.0);
   	chimes[randomIndex].rate(playRate);
+		chimes[randomIndex].pan(randomPan);
+	  chimes[randomIndex].setVolume(random(0.1, 1.0));
     chimes[randomIndex].play();
-    fill(360 / 5 * randomIndex, 100, 80);
-    line((width / 5) + (windowWidth / 5) * randomIndex, height / 2 - (20 * playRate), (width / 5) + (windowWidth / 5) * randomIndex, height/2 + (20 * playRate));
+    stroke(360 / 8 * (round((randomPan + 1) * 4)), 50, 75);
+    line((width / 7) + (windowWidth / 8) * (round((randomPan + 1) * 4)), height / 2 - (20 * (1000 - waitTime) / 250), (width / 7) + (windowWidth / 8) * (round((randomPan + 1) * 4)), height/2 + (20 * (1000 - waitTime) / 250));
   }
   push();
   noStroke();
-  fill('gray');
-  text('p - play | e - pause', width/2, height - 40);
+  fill('lightgray');
+	textAlign(CENTER);
+  text('s - play | e - pause', width/2, height - 30);
   pop();
 }
 
